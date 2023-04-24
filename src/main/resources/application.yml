@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/tiqqet
+    username: tiqqet
+    password: 5ecur3Pa55w0rd
+  security:
+    user:
+      name: admin
+      password: 5ecur3Pa55w0rd
+logging:
+  level:
+    root: debug
+debug: true
