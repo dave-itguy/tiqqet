@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.provisioning.JdbcUserDetailsManager
+import uk.co.davetheitguy.tiqqet.data.entities.TodoItem
+import uk.co.davetheitguy.tiqqet.services.TodoService
 import javax.sql.DataSource
 
 @Profile("debug")
@@ -27,5 +29,13 @@ class DebugConfig {
             val hash = passwordEncoder.encode("password")
             User.withUsername("admin").password(hash).roles("admin").build().let(::createUser)
         }
+    }
+
+    @Bean
+    fun seedData(service: TodoService) {
+        val todo = TodoItem().apply {
+            name = "Test app with seed data!"
+        }
+        service.save(todo)
     }
 }

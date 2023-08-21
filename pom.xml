@@ -12,7 +12,7 @@
 
     <groupId>uk.co.davetheitguy</groupId>
     <artifactId>tiqqet</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>tiqqet</name>
     <description>Tiqqet main initial Monotlith Application</description>
 
@@ -26,10 +26,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
