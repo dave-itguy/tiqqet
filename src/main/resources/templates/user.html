@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage User</title>
+</head>
+<body>
+<span th:if="${exception}" th:text="${exception.message}">Error</span>
+<ul th:if="${exception}">
+    <li th:each="error:${exception.getExceptions()}"><span th:text="${error.propertyName}">name</span> - <span th:text="${error.error}"></span></li>
+</ul>
+<form action="#" th:action="@{/user}" th:object="${user}" method="post">
+    <label for="username">Username:</label>
+    <input id="username" type="email" th:field="*{username}"/>
+    <br/>
+    <label for="password">Password:</label>
+    <input id="password" type="password" th:field="*{password}"/>
+    <br/>
+    <label for="confirm">Confirm:</label>
+    <input id="confirm" type="password" th:field="*{confirm}"/>
+    <br/>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

@@ -17,30 +17,35 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
-	@Bean
-	@ConditionalOnMissingBean(UserDetailsService::class)
-	fun userDetailsService(): InMemoryUserDetailsManager {
-		return InMemoryUserDetailsManager(User.withUsername("user").password("{noop}password").roles("ADMIN").build())
-	}
+    @Bean
+    @ConditionalOnMissingBean(UserDetailsService::class)
+    fun userDetailsService(): InMemoryUserDetailsManager {
+        return InMemoryUserDetailsManager(
+            User
+            .withUsername("user")
+            .password("{noop}password")
+            .roles("ADMIN")
+            .build())
+    }
 
-	@Bean
-	@ConditionalOnMissingBean(AuthenticationEventPublisher::class)
-	fun authenticationEventPublisher(delegate: ApplicationEventPublisher): AuthenticationEventPublisher {
-		return DefaultAuthenticationEventPublisher(delegate)
-	}
+    @Bean
+    @ConditionalOnMissingBean(AuthenticationEventPublisher::class)
+    fun authenticationEventPublisher(delegate: ApplicationEventPublisher): AuthenticationEventPublisher {
+        return DefaultAuthenticationEventPublisher(delegate)
+    }
 
-	@Bean
-	fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-		http {
-			authorizeRequests {
-				authorize("/actuator/**", permitAll)
-				authorize("/", authenticated)
-			}
-			formLogin {
-				permitAll()
-			}
-		}
+    @Bean
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+        http {
+            authorizeRequests {
+                authorize("/actuator/**", permitAll)
+                authorize("/", authenticated)
+            }
+            formLogin {
+                permitAll()
+            }
+        }
 
-		return http.build()
-	}
+        return http.build()
+    }
 }
