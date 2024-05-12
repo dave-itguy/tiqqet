@@ -1,5 +1,14 @@
 @media screen {
     body {
-        padding: 2em;
+        padding-top: 2em;
+    }
+
+    .form-group {
+        padding: 0.5em 0;
+    }
+
+    .card {
+        max-width: 60rem;
+        margin: 0 auto;
     }
 }
