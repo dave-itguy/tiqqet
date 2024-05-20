@@ -10,3 +10,4 @@ class TiqqetApplication
 fun main(args: Array<String>) {
     runApplication<TiqqetApplication>(*args)
 }
+

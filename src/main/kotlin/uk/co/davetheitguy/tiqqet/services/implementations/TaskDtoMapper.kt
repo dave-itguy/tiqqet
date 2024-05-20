@@ -12,7 +12,7 @@ class TaskDtoMapper:Mapper<TaskDto, Task> {
         task.id = from.id ?: 0
         task.name = from.name
         task.description = from.description
-        task.user = from.user
+        task.username = from.user
         return task
     }
 }

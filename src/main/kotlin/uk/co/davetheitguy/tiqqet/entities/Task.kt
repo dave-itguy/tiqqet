@@ -17,6 +17,6 @@ class Task {
     @ManyToOne
     var status: Status? = null
     @NotNull
-    var user: String? = null
+    var username: String? = null
 }
 

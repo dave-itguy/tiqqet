@@ -13,7 +13,7 @@ class TaskMapper: Mapper<Task, TaskDto> {
         taskDto.name = from.name
         taskDto.description = from.description
         taskDto.status = from.status?.name
-        taskDto.user = from.user
+        taskDto.user = from.username
         return taskDto
     }
 }
