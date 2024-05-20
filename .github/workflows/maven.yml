@@ -28,6 +28,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Change permissions
-      run: chmod +b ./mvnw
+      run: chmod +x ./mvnw
     - name: Build with Maven
       run: mvn -B package --file pom.xml
