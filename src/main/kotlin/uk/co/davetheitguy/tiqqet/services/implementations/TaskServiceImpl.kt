@@ -9,7 +9,7 @@ import uk.co.davetheitguy.tiqqet.services.TaskService
 
 @Service
 class TaskServiceImpl(val taskRepository: TaskRepository, val taskMapper:Mapper<Task,TaskDto>, val dtoMapper:Mapper<TaskDto,Task>): TaskService {
-    override fun getAll(): List<TaskDto> {
-        return taskRepository.findAll().map { taskMapper.map(it) }
-    }
+    override fun getAll(): List<TaskDto> = taskRepository.findAll().map { taskMapper.map(it) }
+
+    override fun create(taskDto: TaskDto): TaskDto = taskMapper.map(taskRepository.save(dtoMapper.map(taskDto)))
 }

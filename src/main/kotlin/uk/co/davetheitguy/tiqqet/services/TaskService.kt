@@ -4,4 +4,5 @@ import uk.co.davetheitguy.tiqqet.dto.TaskDto
 
 interface TaskService {
     fun getAll(): List<TaskDto>
+    fun create(taskDto: TaskDto):TaskDto
 }

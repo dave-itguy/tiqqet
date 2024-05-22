@@ -1,9 +1,6 @@
 package uk.co.davetheitguy.tiqqet.entities
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import org.jetbrains.annotations.NotNull
 
 @Entity
@@ -14,7 +11,7 @@ class Task(
     @NotNull
     var name: String? = null,
     var description: String? = null,
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.PERSIST], fetch = FetchType.EAGER, optional = false)
     var status: Status? = null,
     @NotNull
     var username: String? = null
