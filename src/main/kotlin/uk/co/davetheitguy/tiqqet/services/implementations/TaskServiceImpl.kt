@@ -1,5 +1,6 @@
 package uk.co.davetheitguy.tiqqet.services.implementations
 
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import uk.co.davetheitguy.tiqqet.dto.TaskDto
 import uk.co.davetheitguy.tiqqet.entities.Status
@@ -17,14 +18,15 @@ class TaskServiceImpl(
 ) : TaskService {
     override fun getAll(): List<TaskDto> = taskRepository.findAll().map { taskMapper.map(it) }
 
-    override fun update(id: Long, taskDto: TaskDto): TaskDto? {
+    @Transactional
+    override fun update(id: Long, taskDto: TaskDto): Optional<TaskDto> {
         taskRepository.findById(id).ifPresent {
             it.name = taskDto.name
             it.description = taskDto.description
             it.status = Status(name = taskDto.status)
             taskRepository.save(it)
         }
-        return get(id).orElse(null)
+        return get(id)
     }
 
     override fun get(id: Long): Optional<TaskDto> {
@@ -32,5 +34,6 @@ class TaskServiceImpl(
         return if (item.isPresent) Optional.of(taskMapper.map(item.get())) else Optional.empty()
     }
 
+    @Transactional
     override fun create(taskDto: TaskDto): TaskDto = taskMapper.map(taskRepository.save(dtoMapper.map(taskDto)))
 }

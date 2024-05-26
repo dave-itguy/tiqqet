@@ -9,9 +9,11 @@ import org.springframework.context.annotation.Profile
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.provisioning.UserDetailsManager
 import uk.co.davetheitguy.tiqqet.dto.TaskDto
+import uk.co.davetheitguy.tiqqet.security.jwt.annotations.EnableJwtTokenFiltering
 import uk.co.davetheitguy.tiqqet.services.TaskService
 
 
+@EnableJwtTokenFiltering
 @SpringBootApplication
 class TiqqetApplication
 

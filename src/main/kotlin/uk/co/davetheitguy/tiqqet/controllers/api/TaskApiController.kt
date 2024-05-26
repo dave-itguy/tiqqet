@@ -21,5 +21,5 @@ class TaskApiController(private val taskService:TaskService) {
     fun createTask(taskDto: TaskDto): ResponseEntity<TaskDto> = ResponseEntity.ok(taskService.create(taskDto))
 
     @PutMapping("/api/v1/task/{id:\\d+}")
-    fun updateTask(@PathVariable("id") id: Long, taskDto: TaskDto): ResponseEntity<TaskDto> = ResponseEntity.ok(taskService.update(id, taskDto))
+    fun updateTask(@PathVariable("id") id: Long, taskDto: TaskDto): ResponseEntity<TaskDto> = ResponseEntity.of(taskService.update(id, taskDto))
 }
