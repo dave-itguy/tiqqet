@@ -3,12 +3,13 @@ package uk.co.davetheitguy.tiqqet.security.jwt.services.implementations
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
+import org.slf4j.LoggerFactory
 import uk.co.davetheitguy.tiqqet.security.jwt.config.JwtConfig
 import uk.co.davetheitguy.tiqqet.security.jwt.services.JwtUtils
 import java.util.*
 import java.util.function.Consumer
 
-internal class JwtUtilsImpl(val config: JwtConfig) : JwtUtils {
+class JwtUtilsImpl(private val config: JwtConfig) : JwtUtils {
     override fun generateToken(id: String, username: String, roles: List<String>, groupIds: List<Long>): String {
         val claims = Jwts.claims().setId(id).setSubject(username)
         claims["authorities"] = java.lang.String.join(",", roles)
@@ -21,6 +22,7 @@ internal class JwtUtilsImpl(val config: JwtConfig) : JwtUtils {
             .setIssuer(config.issuer)
             .setIssuedAt(Date(System.currentTimeMillis()))
             .setExpiration(Date(System.currentTimeMillis() + config.expiration * 1000))
+            .setAudience(config.audience)
             .signWith(key)
             .compact()
     }
@@ -29,6 +31,8 @@ internal class JwtUtilsImpl(val config: JwtConfig) : JwtUtils {
         try {
             parseToken(token)
         } catch (e: Exception) {
+            val logger = LoggerFactory.getLogger(JwtUtilsImpl::class.java)
+            logger.info("Invalid token: $token", e.message)
             return false
         }
         return true
@@ -37,6 +41,7 @@ internal class JwtUtilsImpl(val config: JwtConfig) : JwtUtils {
     override fun parseToken(token: String): Claims {
         return Jwts.parserBuilder()
             .requireAudience(config.audience)
+            .setSigningKey(Base64.getDecoder().decode(config.secret))
             .build()
             .parseClaimsJws(token)
             .body
