@@ -9,12 +9,12 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
-import uk.co.davetheitguy.tiqqet.security.jwt.services.JwtUtils
-import uk.co.davetheitguy.tiqqet.security.jwt.data.LocalPrincipal
 import uk.co.davetheitguy.tiqqet.security.jwt.config.JwtConfig
+import uk.co.davetheitguy.tiqqet.security.jwt.data.LocalPrincipal
+import uk.co.davetheitguy.tiqqet.security.jwt.services.JwtUtils
 
 class JwtTokenAuthenticationFilter(private val config: JwtConfig, private val utils: JwtUtils) : OncePerRequestFilter() {
-    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
+    public override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val header = request.getHeader(config.header)
 
         if (header == null || !header.startsWith(config.prefix!!)) {
@@ -38,16 +38,14 @@ class JwtTokenAuthenticationFilter(private val config: JwtConfig, private val ut
                 val authoritiesClaim = claims["authorities"] as String
 
                 authorities = authoritiesClaim.split(',')
-                    .map { a -> SimpleGrantedAuthority("ROLE_" + a.toUpperCase()) }
+                    .map { a -> SimpleGrantedAuthority("ROLE_" + a.uppercase()) }
                     .toList()
 
                 val rawGroupIds = claims["groupIds"] as String
 
-                val groupIds: List<Long>
-
-                groupIds = rawGroupIds.trim()
+                val groupIds: List<Long> = rawGroupIds.trim()
                     .split(',')
-                    .filter { !it.isBlank() }
+                    .filter { it.isNotBlank() }
                     .map { it.toLong() }
                     .toList()
 
