@@ -3,3 +3,10 @@ spring:
     name: "tiqqet"
   profiles:
     active: debug
+jwt:
+  audience: "tiqqet"
+  issuer: "tiqqet"
+  expiration: 3600
+  prefix: "Bearer "
+  header: "Authorization"
+  secret: "MTE2LDk1LDEyMyw5Miw0MywxMzAsMTU5LDE1NywxMTQsMTUyLDIzLDE4MywxMzQsOTcsMTE3LDEzNywxMTcsMTA0LDEyMywxMjQsMTExLDE3NCwyMTAsMjA0LDY2LDcwLDExMiwxOTQsMjIyLDIxMCwxMzUsNQ=="

@@ -10,4 +10,13 @@ class JwtConfig {
     var issuer: String? = null
     var prefix: String? = null
     var header: String? = null
+
+    override fun toString() = "JwtConfig(\n" +
+            "\taudience=$audience,\n" +
+            "\tsecret=$secret,\n" +
+            "\texpiration=$expiration,\n" +
+            "\tissuer=$issuer,\n" +
+            "\tprefix=$prefix,\n" +
+            "\theader=$header\n" +
+            ")"
 }

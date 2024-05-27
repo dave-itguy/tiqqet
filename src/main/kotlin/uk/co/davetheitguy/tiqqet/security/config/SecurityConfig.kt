@@ -48,8 +48,10 @@ class SecurityConfig {
     fun securityFilterChain(http: HttpSecurity, filter: JwtTokenAuthenticationFilter): SecurityFilterChain {
         http {
             authorizeRequests {
+                authorize("/login", permitAll)
                 authorize("/actuator/**", permitAll)
                 authorize("/", authenticated)
+                authorize("/api", hasRole("API"))
             }
             formLogin {
                 permitAll()

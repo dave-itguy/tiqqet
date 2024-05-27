@@ -26,12 +26,12 @@ fun main(args: Array<String>) {
 class DebugConfiguration {
     @Bean
     fun seedBean(userDetailsManager: UserDetailsManager, taskService: TaskService) = CommandLineRunner {
-        if(userDetailsManager.userExists("testuser")) return@CommandLineRunner
+        if (userDetailsManager.userExists("testuser")) return@CommandLineRunner
         val user = User.builder()
-                .username("testuser")
-                .password("{noop}password")
-                .roles("USER")
-                .build()
+            .username("testuser")
+            .password("{noop}password")
+            .roles("USER")
+            .build()
         userDetailsManager.createUser(user)
         val taskDto = TaskDto("Test Task", null, "New", "testuser")
         taskService.create(taskDto)
