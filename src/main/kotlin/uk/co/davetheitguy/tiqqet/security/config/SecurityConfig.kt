@@ -13,6 +13,10 @@ import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import uk.co.davetheitguy.tiqqet.security.jwt.config.JwtConfig
+import uk.co.davetheitguy.tiqqet.security.jwt.filter.JwtTokenAuthenticationFilter
+import uk.co.davetheitguy.tiqqet.security.jwt.services.JwtUtils
 
 @Configuration
 @EnableWebSecurity
@@ -22,10 +26,11 @@ class SecurityConfig {
     fun userDetailsService(): InMemoryUserDetailsManager {
         return InMemoryUserDetailsManager(
             User
-            .withUsername("user")
-            .password("{noop}password")
-            .roles("ADMIN")
-            .build())
+                .withUsername("user")
+                .password("{noop}password")
+                .roles("ADMIN")
+                .build()
+        )
     }
 
     @Bean
@@ -35,7 +40,12 @@ class SecurityConfig {
     }
 
     @Bean
-    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+    fun jwtTokenAuthenticationFilter(config: JwtConfig, utils: JwtUtils): JwtTokenAuthenticationFilter {
+        return JwtTokenAuthenticationFilter(config, utils)
+    }
+
+    @Bean
+    fun securityFilterChain(http: HttpSecurity, filter: JwtTokenAuthenticationFilter): SecurityFilterChain {
         http {
             authorizeRequests {
                 authorize("/actuator/**", permitAll)
@@ -45,6 +55,8 @@ class SecurityConfig {
                 permitAll()
             }
         }
+
+        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter::class.java)
 
         return http.build()
     }
